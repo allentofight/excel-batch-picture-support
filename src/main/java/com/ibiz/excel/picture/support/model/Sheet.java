@@ -236,9 +236,14 @@ public class Sheet {
                 }
                 if (!isHead && isPicture && StringUtils.isNotBlank(value)) {
                     //有图片的行,行高设置为100
-                    row.setHeight(WorkbookConstant.PICTURE_ROW_HEIGHT);
-                    //增加图片
-                    pictures.add(new Picture(row.getRowNumber(), cell.getCellNumber(), value));
+                    if (StringUtils.isNotBlank(value)) {
+                        row.setHeight(WorkbookConstant.PICTURE_ROW_HEIGHT);
+                        pictures.add(new Picture(row.getRowNumber(), cell.getCellNumber(), value));
+                    }
+
+                    if (merge) {
+                        colCells.add(cell.getCol());
+                    }
                 }
                 if (isHead || !isPicture) {
                     row.getCells().add(cell);

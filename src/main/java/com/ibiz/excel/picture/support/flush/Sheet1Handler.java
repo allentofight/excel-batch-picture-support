@@ -80,7 +80,7 @@ public class Sheet1Handler implements InvocationHandler {
                 break;
             }
             Cell cell = cells.get(mergeCellNumber);
-            if(StringUtils.isNotBlank(oldValue) && oldValue.equals(cell.getValue())){
+            if((StringUtils.isNotBlank(oldValue) && oldValue.equals(cell.getValue()))){
                 MergeCell mergeCell = null;
                 if(!sheet.getMergeCells().isEmpty()){
                     mergeCell = sheet.getMergeCells().getLast();

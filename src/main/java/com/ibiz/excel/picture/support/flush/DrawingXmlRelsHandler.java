@@ -13,10 +13,16 @@ import org.apache.tools.ant.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -37,11 +43,7 @@ public class DrawingXmlRelsHandler implements InvocationHandler {
             List<Picture> pictures = sheet.getPictures();
             pictures.stream().filter(Objects::nonNull).forEach(p -> {
                 if (StringUtils.isNotBlank(p.getPicturePath())) {
-                    File file = new File(p.getPicturePath());
-                    if(file.exists()) {
-                        //写图片
-                        copyPictureAppendDrawingRelsXML(sheet, p);
-                    }
+                    copyPictureAppendDrawingRelsXML(sheet, p);
                 }
             });
         }
@@ -55,7 +57,10 @@ public class DrawingXmlRelsHandler implements InvocationHandler {
      */
     private void copyPictureAppendDrawingRelsXML(Sheet sheet, Picture picture) {
         try {
-            File srcPicture = new File(picture.getPicturePath());
+            String fileName = "/tmp" + picture.getPicturePath().substring(picture.getPicturePath().lastIndexOf("/"));
+            saveUrlAs(picture.getPicturePath(), fileName);
+
+            File srcPicture = new File(fileName);
             String md5 = MD5Digester.digestMD5(srcPicture);
             Integer drawingSequence = sheet.getWorkbook().getImageCache().get(md5);
             if (Objects.nonNull(drawingSequence)) {
@@ -77,8 +82,30 @@ public class DrawingXmlRelsHandler implements InvocationHandler {
             target.append(CovertUtil.covert(relationShip));
         } catch (IOException e) {
             logger.error("图片copy到media目录下异常",e);
-        }catch (Exception e) {
+        } catch (Exception e) {
             logger.error("图片copy到media目录下异常",e);
         }
     }
+
+    public boolean saveUrlAs(String photoUrl, String fileName) {
+        try {
+            URL url = new URL(photoUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            DataInputStream in = new DataInputStream(connection.getInputStream());
+            DataOutputStream out = new DataOutputStream(new FileOutputStream(fileName));
+            byte[] buffer = new byte[4096];
+            int count = 0;
+            while ((count = in.read(buffer)) > 0) {
+                out.write(buffer, 0, count);
+            }
+            out.close();
+            in.close();
+            return true;
+        }
+        catch (Exception e) {
+            return false;
+        }
+    }
+
+
 }

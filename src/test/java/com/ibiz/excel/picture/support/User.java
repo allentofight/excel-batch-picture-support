@@ -16,23 +16,27 @@ public class User {
     private Integer age;
     @ExportModel(sort = 2, title = "部门", merge = true)
     private String department;
-    @ExportModel(sort = 3, isPicture = true, title = "图片1")
+    @ExportModel(sort = 3, isPicture = true, title = "图片1", merge = true)
     private String picture;
-    @ExportModel(sort = 4, isPicture = true, title = "图片2")
+    @ExportModel(sort = 4, isPicture = true, title = "图片2", merge = true)
     private String picture1;
-    @ExportModel(sort = 5, isPicture = true, title = "图片3")
+    @ExportModel(sort = 5, isPicture = true, title = "图片3", merge = true)
     private String picture2;
-    @ExportModel(sort = 6, isPicture = true, title = "图片4")
+    @ExportModel(sort = 6, isPicture = true, title = "图片4", merge = true)
     private String picture3;
     @ExportModel(sort = 7, title = "部门1", merge = true)
     private String department1;
     @ExportModel(sort = 8, title = "部门2", merge = true)
     private String department2;
     @ExportModel(sort = 9, title = "部门3", merge = true)
-    private String department3; @ExportModel(sort = 10, title = "部门4", merge = true)
-    private String department4; @ExportModel(sort = 11, title = "部门5", merge = true)
-    private String department5; @ExportModel(sort = 12, title = "部门6", merge = true)
-    private String department6; @ExportModel(sort = 13, title = "部门7", merge = true)
+    private String department3;
+    @ExportModel(sort = 10, title = "部门4", merge = true)
+    private String department4;
+    @ExportModel(sort = 11, title = "部门5", merge = true)
+    private String department5;
+    @ExportModel(sort = 12, title = "部门6", merge = true)
+    private String department6;
+    @ExportModel(sort = 13, title = "部门7", merge = true)
     private String department7;
 
     public String getDepartment1() {

@@ -89,7 +89,7 @@ public class Workbook {
 
     public void close() {
         if (!close) {
-            deleteFile(destPath);
+//            deleteFile(destPath);
             logger.info("delete dest excel path:{}", destPath);
         }
         close = true;
